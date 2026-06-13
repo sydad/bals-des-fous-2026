@@ -138,6 +138,18 @@ tbody td{padding:.65rem .85rem;vertical-align:top;line-height:1.4}
 
 /* COLORS */
 .c1{background:#E63946}.c2{background:#8338EC}.c3{background:#22C55E}.c4{background:#FF9F1C}
+
+/* SELECT */
+select{width:100%;padding:.6rem .85rem;border:1.5px solid var(--border);border-radius:8px;font-size:.95rem;font-family:'Inter',sans-serif;color:var(--text);background:#fff;transition:border .2s;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A6090' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .85rem center}
+select:focus{border-color:var(--accent4)}
+
+/* RESET LINK */
+.reset-link{display:inline-block;margin-top:.75rem;font-size:.8rem;color:var(--accent4);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.reset-link:hover{color:var(--deep)}
+
+/* SUCCESS BOX */
+.success-box{background:#D1FAE5;border:1px solid #6EE7B7;border-radius:10px;padding:.85rem 1rem;font-size:.85rem;color:#065F46;margin-top:.75rem;display:none}
+.success-box.show{display:block}
 </style>
 </head>
 <body>
@@ -172,6 +184,17 @@ tbody td{padding:.65rem .85rem;vertical-align:top;line-height:1.4}
     <div class="form-hint">Prénom + initiale ou pseudo — visible par le groupe.</div>
     <label>Mot de passe (pour modifier plus tard)</label>
     <input type="password" id="reg-password" placeholder="Choisis un mot de passe">
+    <label>Question secrète (pour récupérer ton mot de passe)</label>
+    <select id="reg-question">
+      <option value="">— Choisir une question —</option>
+      <option value="ville">Quelle est la ville où tu es né·e ?</option>
+      <option value="animal">Quel est le nom de ton premier animal de compagnie ?</option>
+      <option value="ecole">Quel est le nom de ton école primaire ?</option>
+      <option value="plat">Quel est ton plat préféré ?</option>
+      <option value="surnom">Quel est ton surnom d'enfance ?</option>
+    </select>
+    <label>Réponse secrète</label>
+    <input type="text" id="reg-answer" placeholder="Ta réponse (insensible à la casse)" maxlength="60" autocomplete="off">
     <div class="form-error" id="reg-error"></div>
     <button class="btn-submit" onclick="register()">Créer mon profil →</button>
   </div>
@@ -186,6 +209,37 @@ tbody td{padding:.65rem .85rem;vertical-align:top;line-height:1.4}
     <input type="password" id="login-password" placeholder="Ton mot de passe">
     <div class="form-error" id="login-error"></div>
     <button class="btn-submit" onclick="login()">Se connecter →</button>
+    <span class="reset-link" onclick="showScreen('screen-reset')">🔑 Mot de passe oublié ?</span>
+  </div>
+</div>
+
+<!-- ===== ÉCRAN RESET MOT DE PASSE ===== -->
+<div class="screen" id="screen-reset">
+  <div class="page-hero">
+    <h1>🔑 Récupérer mon mot de passe</h1>
+    <p>Réponds à ta question secrète pour choisir un nouveau mot de passe.</p>
+  </div>
+
+  <div class="card">
+    <h2>Réinitialiser le mot de passe</h2>
+    <label>Ton prénom (tel qu'au moment de l'inscription)</label>
+    <input type="text" id="reset-prenom" placeholder="Ex : Sophie" maxlength="30">
+    <div id="reset-question-wrap" style="display:none">
+      <label>Question secrète</label>
+      <div id="reset-question-text" style="font-size:.9rem;font-weight:500;color:var(--deep);padding:.5rem .85rem;background:#F4F0FF;border-radius:8px;margin-bottom:.5rem"></div>
+      <label>Ta réponse</label>
+      <input type="text" id="reset-answer" placeholder="Ta réponse secrète" maxlength="60" autocomplete="off">
+      <div id="reset-newpwd-wrap" style="display:none;margin-top:.5rem">
+        <label>Nouveau mot de passe</label>
+        <input type="password" id="reset-newpwd" placeholder="Choisis un nouveau mot de passe">
+        <label>Confirmer le mot de passe</label>
+        <input type="password" id="reset-newpwd2" placeholder="Répète ton nouveau mot de passe">
+      </div>
+    </div>
+    <div class="form-error" id="reset-error"></div>
+    <div class="success-box" id="reset-success">✅ Mot de passe modifié ! Tu peux te connecter.</div>
+    <button class="btn-submit" id="reset-btn" onclick="handleReset()" style="margin-top:1rem">Vérifier →</button>
+    <span class="reset-link" onclick="showScreen('screen-auth')" style="display:block;text-align:center;margin-top:.75rem">← Retour à la connexion</span>
   </div>
 </div>
 
@@ -272,24 +326,96 @@ let currentUser = null; // {prenom, initial}
 let currentKey = null;  // "prenom" lowercase key
 
 /* ===================== AUTH ===================== */
-function register(){
-  const prenom = document.getElementById('reg-prenom').value.trim();
-  const initial = document.getElementById('reg-initial').value.trim();
-  const pwd = document.getElementById('reg-password').value;
-  const err = document.getElementById('reg-error');
-  err.className = 'form-error';
+const QUESTIONS = {
+  ville:  'Quelle est la ville où tu es né·e ?',
+  animal: 'Quel est le nom de ton premier animal de compagnie ?',
+  ecole:  'Quel est le nom de ton école primaire ?',
+  plat:   'Quel est ton plat préféré ?',
+  surnom: 'Quel est ton surnom d\'enfance ?',
+};
 
-  if(!prenom){ err.textContent='Saisis ton prénom.'; err.classList.add('show'); return; }
-  if(!initial){ err.textContent='Saisis une initiale ou un pseudo.'; err.classList.add('show'); return; }
+function register(){
+  const prenom   = document.getElementById('reg-prenom').value.trim();
+  const initial  = document.getElementById('reg-initial').value.trim();
+  const pwd      = document.getElementById('reg-password').value;
+  const question = document.getElementById('reg-question').value;
+  const answer   = document.getElementById('reg-answer').value.trim().toLowerCase();
+  const err      = document.getElementById('reg-error');
+  err.className  = 'form-error';
+
+  if(!prenom)  { err.textContent='Saisis ton prénom.'; err.classList.add('show'); return; }
+  if(!initial) { err.textContent='Saisis une initiale ou un pseudo.'; err.classList.add('show'); return; }
   if(!pwd || pwd.length < 4){ err.textContent='Mot de passe trop court (4 caractères minimum).'; err.classList.add('show'); return; }
+  if(!question){ err.textContent='Choisis une question secrète.'; err.classList.add('show'); return; }
+  if(!answer)  { err.textContent='Saisis ta réponse secrète.'; err.classList.add('show'); return; }
 
   const users = loadUsers();
-  const key = prenom.toLowerCase();
+  const key   = prenom.toLowerCase();
   if(users[key]){ err.textContent='Ce prénom est déjà utilisé. Connecte-toi ou choisis un pseudo différent.'; err.classList.add('show'); return; }
 
-  users[key] = { prenom, initial, pwd };
+  users[key] = { prenom, initial, pwd, question, answer };
   saveUsers(users);
   doLogin(key, prenom, initial);
+}
+
+/* ===================== RESET MOT DE PASSE ===================== */
+let resetStep = 1; // 1=chercher user, 2=vérifier réponse, 3=nouveau pwd
+
+function handleReset(){
+  const err = document.getElementById('reset-error');
+  const success = document.getElementById('reset-success');
+  err.className = 'form-error';
+  success.className = 'success-box';
+
+  if(resetStep === 1){
+    const prenom = document.getElementById('reset-prenom').value.trim();
+    if(!prenom){ err.textContent='Saisis ton prénom.'; err.classList.add('show'); return; }
+    const users = loadUsers();
+    const key   = prenom.toLowerCase();
+    if(!users[key]){ err.textContent='Prénom introuvable.'; err.classList.add('show'); return; }
+    const u = users[key];
+    if(!u.question){ err.textContent='Aucune question secrète enregistrée pour ce compte.'; err.classList.add('show'); return; }
+    // Afficher la question
+    document.getElementById('reset-question-text').textContent = QUESTIONS[u.question] || u.question;
+    document.getElementById('reset-question-wrap').style.display = 'block';
+    document.getElementById('reset-btn').textContent = 'Valider la réponse →';
+    resetStep = 2;
+
+  } else if(resetStep === 2){
+    const prenom = document.getElementById('reset-prenom').value.trim();
+    const answer = document.getElementById('reset-answer').value.trim().toLowerCase();
+    if(!answer){ err.textContent='Saisis ta réponse.'; err.classList.add('show'); return; }
+    const users = loadUsers();
+    const key   = prenom.toLowerCase();
+    const u     = users[key];
+    if(u.answer !== answer){ err.textContent='Réponse incorrecte. Essaie encore.'; err.classList.add('show'); return; }
+    // Bonne réponse — afficher le champ nouveau mot de passe
+    document.getElementById('reset-newpwd-wrap').style.display = 'block';
+    document.getElementById('reset-btn').textContent = 'Enregistrer le nouveau mot de passe →';
+    resetStep = 3;
+
+  } else if(resetStep === 3){
+    const prenom  = document.getElementById('reset-prenom').value.trim();
+    const newpwd  = document.getElementById('reset-newpwd').value;
+    const newpwd2 = document.getElementById('reset-newpwd2').value;
+    if(!newpwd || newpwd.length < 4){ err.textContent='Mot de passe trop court (4 caractères minimum).'; err.classList.add('show'); return; }
+    if(newpwd !== newpwd2){ err.textContent='Les deux mots de passe ne correspondent pas.'; err.classList.add('show'); return; }
+    const users = loadUsers();
+    const key   = prenom.toLowerCase();
+    users[key].pwd = newpwd;
+    saveUsers(users);
+    // Succès
+    success.classList.add('show');
+    document.getElementById('reset-btn').style.display = 'none';
+    document.getElementById('reset-newpwd-wrap').style.display = 'none';
+    resetStep = 1;
+    setTimeout(()=>{
+      // Pré-remplir le login et basculer
+      document.getElementById('login-prenom').value = prenom;
+      showScreen('screen-auth');
+      toast('Mot de passe modifié ! Connecte-toi. 🎉');
+    }, 2000);
+  }
 }
 
 function login(){
@@ -331,6 +457,17 @@ function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if(id==='screen-groupe') buildGroupeView();
+  if(id==='screen-reset'){
+    resetStep = 1;
+    document.getElementById('reset-prenom').value='';
+    document.getElementById('reset-answer').value='';
+    document.getElementById('reset-question-wrap').style.display='none';
+    document.getElementById('reset-newpwd-wrap').style.display='none';
+    document.getElementById('reset-btn').style.display='block';
+    document.getElementById('reset-btn').textContent='Vérifier →';
+    document.getElementById('reset-error').className='form-error';
+    document.getElementById('reset-success').className='success-box';
+  }
 }
 
 function showLogin(){ showScreen('screen-auth'); }
