@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nos Bals des Fous – Cannes 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #D4A017;
+    --gold-light: #F5D06A;
+    --deep: #1A0A2E;
+    --text: #2C1654;
+    --muted: #7A6090;
+    --bg: #FDF8FF;
+    --card-bg: #FFFFFF;
+    --accent1: #E63946;
+    --accent2: #2EC4B6;
+    --accent3: #FF9F1C;
+    --accent4: #8338EC;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* === HERO === */
+  .hero {
+    background: var(--deep);
+    position: relative;
+    overflow: hidden;
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+  }
+
+  .confetti {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .dot {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: float linear infinite;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0.8; }
+    100% { transform: translateY(-120px) rotate(720deg); opacity: 0; }
+  }
+
+  .hero-subtitle {
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.05;
+    position: relative;
+  }
+
+  .hero h1 span {
+    color: var(--gold-light);
+    display: block;
+  }
+
+  .hero-desc {
+    margin: 1.5rem auto 0;
+    max-width: 520px;
+    color: rgba(255,255,255,0.65);
+    font-size: 1rem;
+    line-height: 1.7;
+    position: relative;
+  }
+
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 2rem;
+    position: relative;
+  }
+
+  .badge {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 999px;
+    padding: 0.35rem 1rem;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.85);
+    backdrop-filter: blur(4px);
+  }
+
+  /* === SECTION === */
+  .section {
+    padding: 4rem 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: var(--deep);
+    line-height: 1.2;
+  }
+
+  /* === CARDS GRID === */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(26,10,46,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(26,10,46,0.15);
+  }
+
+  .card-img-wrap {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: #eee;
+  }
+
+  .card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-date-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: var(--deep);
+    color: var(--gold-light);
+    border-radius: 10px;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  .card-date-badge strong {
+    display: block;
+    font-size: 1.4rem;
+    line-height: 1;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .card-color-strip {
+    height: 5px;
+  }
+
+  .card-body {
+    padding: 1.25rem 1.25rem 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .card-theme {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--deep);
+    line-height: 1.2;
+  }
+
+  .card-vibe {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid #F0ECF8;
+    line-height: 1.5;
+  }
+
+  .card-attend-toggle {
+    display: none;
+  }
+
+  .toggle-switch { display: none; }
+
+  /* Lien inscription sous la carte */
+  .card-inscrit-link {
+    display: block;
+    text-align: center;
+    margin-top: 0.9rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 999px;
+    background: var(--deep);
+    color: var(--gold-light);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+    letter-spacing: 0.03em;
+  }
+  .card-inscrit-link:hover { background: #2d1255; }
+
+  /* Lien cliquable sur l'image */
+  .card-img-link {
+    display: block;
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: #eee;
+    cursor: pointer;
+  }
+  .card-img-link img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease;
+  }
+  .card-img-link:hover img { transform: scale(1.04); }
+  .card-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(26,10,46,0);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 1rem;
+    transition: background 0.3s;
+  }
+  .card-img-link:hover .card-img-overlay {
+    background: rgba(26,10,46,0.45);
+  }
+  .card-img-overlay-label {
+    background: var(--gold);
+    color: var(--deep);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.25s, transform 0.25s;
+    white-space: nowrap;
+  }
+  .card-img-link:hover .card-img-overlay-label {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* === ZONE INFO PROCHAIN BAL === */
+  .info-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 3rem;
+  }
+  .info-card {
+    background: #fff;
+    border-radius: 18px;
+    border: 1.5px solid #E8E0F4;
+    box-shadow: 0 2px 16px rgba(26,10,46,0.06);
+    overflow: hidden;
+  }
+  .info-card-head {
+    background: var(--deep);
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .info-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .info-card-by {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.4);
+  }
+  .info-card-body {
+    padding: 1.25rem 1.5rem;
+  }
+  /* Vue lecture */
+  #info-display {
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.75;
+    min-height: 3rem;
+    white-space: pre-wrap;
+  }
+  #info-display.empty {
+    color: var(--muted);
+    font-style: italic;
+  }
+  /* Zone édition */
+  #info-edit-zone { display: none; }
+  #info-textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 0.75rem;
+    border: 1.5px solid #D9D1F5;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+    resize: vertical;
+    outline: none;
+    line-height: 1.6;
+  }
+  #info-textarea:focus { border-color: var(--accent4); }
+  .info-edit-actions {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 0.75rem;
+    justify-content: flex-end;
+  }
+  .btn-info {
+    padding: 0.45rem 1.1rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.2s;
+  }
+  .btn-save-info { background: var(--deep); color: var(--gold-light); }
+  .btn-save-info:hover { background: #2d1255; }
+  .btn-cancel-info { background: #F0ECF8; color: var(--muted); }
+  .btn-cancel-info:hover { background: #E8E0F4; }
+  /* Bouton éditer — visible seulement si Gilles D. connecté */
+  #btn-edit-info {
+    display: none;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.85);
+    font-family: 'Inter', sans-serif;
+    transition: background 0.2s;
+  }
+  #btn-edit-info:hover { background: rgba(255,255,255,0.2); }
+  /* Bandeau connexion rapide Gilles */
+  .gilles-login-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #F0ECF8;
+  }
+  .gilles-login-bar input {
+    padding: 0.35rem 0.65rem;
+    border-radius: 8px;
+    border: 1.5px solid #D9D1F5;
+    font-size: 0.8rem;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    width: 160px;
+  }
+  .gilles-login-bar input:focus { border-color: var(--accent4); }
+  .gilles-login-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .gilles-error { font-size: 0.75rem; color: var(--accent1); display: none; }
+
+  /* === COLOR ACCENTS === */
+  .color-1 { background: var(--accent1); }
+  .color-2 { background: var(--accent4); }
+  .color-3 { background: #22C55E; }
+  .color-4 { background: var(--accent3); }
+
+  /* === COUNTDOWN === */
+  .countdown-wrap {
+    background: var(--deep);
+    border-radius: 24px;
+    padding: 3rem 2rem;
+    text-align: center;
+    margin: 0 1.5rem;
+  }
+
+  .countdown-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 0.5rem;
+  }
+
+  .countdown-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: #fff;
+    margin-bottom: 2rem;
+  }
+
+  .countdown-grid {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .countdown-unit {
+    text-align: center;
+  }
+
+  .countdown-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1;
+    display: block;
+  }
+
+  .countdown-name {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-top: 0.4rem;
+  }
+
+  .countdown-sep {
+    font-size: 2rem;
+    color: rgba(255,255,255,0.2);
+    align-self: center;
+    padding-bottom: 0.5rem;
+  }
+
+  /* === FOOTER === */
+  footer {
+    background: var(--deep);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    font-size: 0.8rem;
+    margin-top: 4rem;
+  }
+
+  footer strong {
+    color: var(--gold-light);
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  /* === SQUIGGLE DIVIDER === */
+  .divider {
+    text-align: center;
+    padding: 0.5rem 0 0;
+    color: var(--gold);
+    font-size: 1.5rem;
+    letter-spacing: 0.3em;
+    opacity: 0.6;
+  }
+
+  /* === INSCRITS SECTION === */
+  .inscrits-section {
+    background: var(--deep);
+    padding: 2rem 1.5rem 5rem;
+    margin-top: 1rem;
+  }
+
+  .inscrits-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .inscrits-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .inscrits-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    opacity: 0.7;
+    margin-bottom: 0.5rem;
+  }
+
+  .inscrits-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .inscrits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .inscrits-bal-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .inscrits-bal-head {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .inscrits-bal-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .inscrits-bal-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.3;
+    flex: 1;
+  }
+
+  .inscrits-bal-date {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.4);
+    white-space: nowrap;
+  }
+
+  .inscrits-list {
+    padding: 0.75rem 1rem;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .inscrit-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .inscrit-name {
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    white-space: nowrap;
+  }
+
+  .inscrit-mode {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+    font-style: italic;
+  }
+
+  .inscrits-empty {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.25);
+    font-style: italic;
+    padding: 0.25rem 0;
+  }
+
+  .inscrits-count {
+    display: inline-block;
+    background: rgba(255,255,255,0.1);
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--gold-light);
+    padding: 0.1rem 0.5rem;
+    margin-left: auto;
+  }
+
+  .inscrits-link {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .inscrits-link a {
+    display: inline-block;
+    padding: 0.65rem 1.6rem;
+    border-radius: 999px;
+    background: var(--gold);
+    color: var(--deep);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .inscrits-link a:hover { background: var(--gold-light); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="confetti" id="confetti"></div>
+  <p class="hero-subtitle">Cannes · Terrasse Riviera · Palais des Festivals</p>
+  <h1>Les Bals des Fous<span>2026</span></h1>
+  <p class="hero-desc">Quatre soirées déguisées sur la Croisette. Quatre occasions de perdre la tête. On y sera. 🎭</p>
+  <div class="hero-badges">
+    <span class="badge">📅 4 bals</span>
+    <span class="badge">🕓 16h – 00h30</span>
+    <span class="badge">🦩 Déguisement obligatoire</span>
+    <span class="badge">📍 Palais des Festivals</span>
+  </div>
+</header>
+
+<!-- COUNTDOWN -->
+<div style="max-width:1100px; margin: 3rem auto 0;">
+  <div class="countdown-wrap">
+    <p class="countdown-label">Prochain bal</p>
+    <p class="countdown-title" id="next-bal-name">Le Bal Pin-Up & Playboy — 12 juillet 2026</p>
+    <div class="countdown-grid">
+      <div class="countdown-unit"><span class="countdown-num" id="cd-days">--</span><span class="countdown-name">jours</span></div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-hours">--</span><span class="countdown-name">heures</span></div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-min">--</span><span class="countdown-name">minutes</span></div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-unit"><span class="countdown-num" id="cd-sec">--</span><span class="countdown-name">secondes</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- BALS -->
+<main>
+  <div class="section">
+    <div class="section-header">
+      <p class="section-eyebrow">Le programme du groupe</p>
+      <h2 class="section-title">Les quatre bals auxquels Gilles vous propose de participer</h2>
+      <div class="divider">✦ ✦ ✦</div>
+    </div>
+
+    <div class="cards">
+
+      <!-- 12 juillet : Pin-Up & Playboy -->
+      <div class="card">
+        <a class="card-img-link" href="https://www.lebaldesfous.com/reservations" target="_blank" rel="noopener" title="Réserver sur le site officiel">
+          <img
+            src="https://www.cannes.com/_object/ametys-internal%253Asites/www/ametys-internal%253Acontents/le-bal-des-fous-2025-evenement-3/_attribute/illustration/image/le-bal-pin-up_crop182x273.jpg"
+            alt="Affiche du Bal Pin-Up & Playboy"
+            onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#E63946,#c1121f)'; this.parentElement.querySelector('.card-img-overlay').innerHTML='<div style=\'font-size:3rem\'>💋</div>';"
+          >
+          <div class="card-img-overlay"><span class="card-img-overlay-label">🎟 Réserver sur lebaldesfous.com</span></div>
+          <div class="card-date-badge"><strong>12</strong>juillet</div>
+        </a>
+        <div class="card-color-strip color-1"></div>
+        <div class="card-body">
+          <p class="card-theme">Bal #1</p>
+          <h3 class="card-title">Le Bal Pin-Up & Playboy</h3>
+          <p class="card-vibe">Glamour rétro et paillettes. Robes à pois, cravates slim, lunettes cat-eye. L'été commence en beauté.</p>
+          <a class="card-inscrit-link" href="inscription-bals.html">✏️ M'inscrire à ce bal</a>
+        </div>
+      </div>
+
+      <!-- 19 juillet : Super Héros -->
+      <div class="card">
+        <a class="card-img-link" href="https://www.lebaldesfous.com/reservations" target="_blank" rel="noopener" title="Réserver sur le site officiel">
+          <img
+            src="https://www.cannes.com/_object/ametys-internal%253Asites/www/ametys-internal%253Acontents/le-bal-des-fous-2025-evenement-3-2/_attribute/illustration/image/le-bal-super-heros_crop182x273.jpg"
+            alt="Affiche du Bal Super Héros"
+            onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#8338EC,#5c2db0)'; this.parentElement.querySelector('.card-img-overlay').innerHTML='<div style=\'font-size:3rem\'>🦸</div>';"
+          >
+          <div class="card-img-overlay"><span class="card-img-overlay-label">🎟 Réserver sur lebaldesfous.com</span></div>
+          <div class="card-date-badge"><strong>19</strong>juillet</div>
+        </a>
+        <div class="card-color-strip color-2"></div>
+        <div class="card-body">
+          <p class="card-theme">Bal #2</p>
+          <h3 class="card-title">Le Bal Super Héros</h3>
+          <p class="card-vibe">Capes, masques et pouvoirs spéciaux. Choisissez votre alter ego et sauvez la Croisette.</p>
+          <a class="card-inscrit-link" href="inscription-bals.html">✏️ M'inscrire à ce bal</a>
+        </div>
+      </div>
+
+      <!-- 23 août : Jungle -->
+      <div class="card">
+        <a class="card-img-link" href="https://www.lebaldesfous.com/reservations" target="_blank" rel="noopener" title="Réserver sur le site officiel">
+          <img
+            src="https://www.cannes.com/_object/ametys-internal%253Asites/www/ametys-internal%253Acontents/le-bal-des-fous-2025-evenement-3-2-2-2-2-2-2/_attribute/illustration/image/le-bal-jungle_crop182x273.jpg"
+            alt="Affiche du Bal Jungle"
+            onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#22C55E,#166534)'; this.parentElement.querySelector('.card-img-overlay').innerHTML='<div style=\'font-size:3rem\'>🌿</div>';"
+          >
+          <div class="card-img-overlay"><span class="card-img-overlay-label">🎟 Réserver sur lebaldesfous.com</span></div>
+          <div class="card-date-badge"><strong>23</strong>août</div>
+        </a>
+        <div class="card-color-strip color-3"></div>
+        <div class="card-body">
+          <p class="card-theme">Bal #3</p>
+          <h3 class="card-title">Le Bal Jungle</h3>
+          <p class="card-vibe">Feuilles de bananier, tenues léopard et ambiance tropicale. La jungle s'invite sur la Côte d'Azur.</p>
+          <a class="card-inscrit-link" href="inscription-bals.html">✏️ M'inscrire à ce bal</a>
+        </div>
+      </div>
+
+      <!-- 30 août : Impérial -->
+      <div class="card">
+        <a class="card-img-link" href="https://www.lebaldesfous.com/reservations" target="_blank" rel="noopener" title="Réserver sur le site officiel">
+          <img
+            src="https://www.cannes.com/_object/ametys-internal%253Asites/www/ametys-internal%253Acontents/le-bal-des-fous-2025-evenement-3-2-2-2-2-2-3/_attribute/illustration/image/le-bal-imperial_crop182x273.jpg"
+            alt="Affiche du Bal Impérial"
+            onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#D4A017,#a07010)'; this.parentElement.querySelector('.card-img-overlay').innerHTML='<div style=\'font-size:3rem\'>👑</div>';"
+          >
+          <div class="card-img-overlay"><span class="card-img-overlay-label">🎟 Réserver sur lebaldesfous.com</span></div>
+          <div class="card-date-badge"><strong>30</strong>août</div>
+        </a>
+        <div class="card-color-strip color-4"></div>
+        <div class="card-body">
+          <p class="card-theme">Bal #4 — Le grand final</p>
+          <h3 class="card-title">Le Bal Impérial</h3>
+          <p class="card-vibe">La soirée de clôture. Couronnes, dorures et tenues de cour. Finir l'été en empereurs.</p>
+          <a class="card-inscrit-link" href="inscription-bals.html">✏️ M'inscrire à ce bal</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- INSCRITS PAR BAL -->
+<section class="inscrits-section" id="inscrits-section">
+  <div class="inscrits-inner">
+    <div class="inscrits-header">
+      <p class="inscrits-eyebrow">Qui vient ?</p>
+      <h2 class="inscrits-title">Les inscrits du groupe</h2>
+    </div>
+    <div class="inscrits-grid" id="inscrits-grid">
+      <!-- rempli par JS -->
+    </div>
+    <div class="inscrits-link">
+      <a href="inscription-bals.html">✏️ M'inscrire / modifier mon inscription</a>
+    </div>
+  </div>
+</section>
+
+<!-- ZONE INFO PROCHAIN BAL -->
+<div class="info-section">
+  <div class="info-card">
+    <div class="info-card-head">
+      <div class="info-card-title">📋 Informations pour le prochain Bal des Fous</div>
+      <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
+        <span class="info-card-by" id="info-edited-by"></span>
+        <button id="btn-edit-info" onclick="startEditInfo()">✏️ Modifier</button>
+      </div>
+    </div>
+    <div class="info-card-body">
+      <div id="info-display" class="empty">Aucune information pour le moment.</div>
+      <div id="info-edit-zone">
+        <textarea id="info-textarea" placeholder="Écris ici les informations pratiques pour le prochain bal : point de rendez-vous, tenue suggérée, covoiturage, contact..."></textarea>
+        <div class="info-edit-actions">
+          <button class="btn-info btn-cancel-info" onclick="cancelEditInfo()">Annuler</button>
+          <button class="btn-info btn-save-info" onclick="saveInfo()">💾 Enregistrer</button>
+        </div>
+      </div>
+      <!-- Bandeau connexion Gilles -->
+      <div class="gilles-login-bar" id="gilles-login-bar">
+        <span class="gilles-login-label">🔐 Gilles D. — mot de passe :</span>
+        <input type="password" id="gilles-pwd-input" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')tryGillesLogin()">
+        <button class="btn-info btn-save-info" style="padding:.35rem .85rem;font-size:.75rem" onclick="tryGillesLogin()">Connexion</button>
+        <span class="gilles-error" id="gilles-error">Mot de passe incorrect.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <strong>Nos Bals des Fous · Cannes 2026</strong>
+  Terrasse Riviera · Palais des Festivals · 1 boulevard de la Croisette<br>
+  Entrée libre (Fast Pass recommandé) · À partir de 18 ans
+</footer>
+
+<script>
+  /* Confetti */
+  (function() {
+    const colors = ['#E63946','#FF9F1C','#2EC4B6','#8338EC','#F5D06A','#22C55E','#FF6B9D'];
+    const sizes  = [6, 8, 10, 12, 5];
+    const wrap   = document.getElementById('confetti');
+    for (let i = 0; i < 40; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot';
+      const s = sizes[Math.floor(Math.random() * sizes.length)];
+      d.style.cssText = [
+        'width:' + s + 'px',
+        'height:' + s + 'px',
+        'left:' + Math.random() * 100 + '%',
+        'bottom:' + (-20) + 'px',
+        'background:' + colors[Math.floor(Math.random() * colors.length)],
+        'animation-duration:' + (4 + Math.random() * 8) + 's',
+        'animation-delay:' + (Math.random() * 8) + 's',
+      ].join(';');
+      wrap.appendChild(d);
+    }
+  })();
+
+  /* Countdown to next bal */
+  const bals = [
+    { name: 'Le Bal Pin-Up & Playboy', date: new Date('2026-07-12T16:00:00') },
+    { name: 'Le Bal Super Héros',      date: new Date('2026-07-19T16:00:00') },
+    { name: 'Le Bal Jungle',           date: new Date('2026-08-23T16:00:00') },
+    { name: 'Le Bal Impérial',         date: new Date('2026-08-30T16:00:00') },
+  ];
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function updateCountdown() {
+    const now = new Date();
+    const next = bals.find(b => b.date > now);
+    if (!next) {
+      document.getElementById('next-bal-name').textContent = '🎉 Les bals de l\'été sont terminés — à l\'année prochaine !';
+      ['cd-days','cd-hours','cd-min','cd-sec'].forEach(id => document.getElementById(id).textContent = '00');
+      return;
+    }
+    const fmt = next.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+    document.getElementById('next-bal-name').textContent = next.name + ' — ' + fmt;
+    const diff = next.date - now;
+    const days  = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins  = Math.floor((diff % 3600000)  / 60000);
+    const secs  = Math.floor((diff % 60000)    / 1000);
+    document.getElementById('cd-days').textContent  = pad(days);
+    document.getElementById('cd-hours').textContent = pad(hours);
+    document.getElementById('cd-min').textContent   = pad(mins);
+    document.getElementById('cd-sec').textContent   = pad(secs);
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  /* ===== ZONE INFO — réservée à Gilles D. ===== */
+  const INFO_KEY = 'bdf2026_info';
+  const GILLES_KEY = 'gilles';      // clé dans bdf2026_users
+  let gillesUnlocked = false;
+
+  function loadInfo() {
+    try { return JSON.parse(localStorage.getItem(INFO_KEY) || 'null'); } catch(e){ return null; }
+  }
+
+  function renderInfo() {
+    const data = loadInfo();
+    const display = document.getElementById('info-display');
+    const editedBy = document.getElementById('info-edited-by');
+    if (data && data.text && data.text.trim()) {
+      display.textContent = data.text;
+      display.classList.remove('empty');
+      editedBy.textContent = 'Mis à jour par ' + (data.author || 'Gilles D.');
+    } else {
+      display.textContent = 'Aucune information pour le moment.';
+      display.classList.add('empty');
+      editedBy.textContent = '';
+    }
+  }
+
+  function checkGillesInStorage() {
+    // Gilles est connecté sur le site d'inscription → son compte existe dans users
+    try {
+      const users = JSON.parse(localStorage.getItem('bdf2026_users') || '{}');
+      return !!users[GILLES_KEY];
+    } catch(e){ return false; }
+  }
+
+  function initInfoZone() {
+    renderInfo();
+    // Vérifier si Gilles a déjà déverrouillé cette session
+    if (sessionStorage.getItem('bdf2026_gilles_ok') === '1') {
+      unlockGilles();
+      return;
+    }
+    // Montrer le bandeau de connexion seulement si compte Gilles existe
+    const bar = document.getElementById('gilles-login-bar');
+    bar.style.display = checkGillesInStorage() ? 'flex' : 'none';
+  }
+
+  function tryGillesLogin() {
+    const pwd = document.getElementById('gilles-pwd-input').value;
+    const err = document.getElementById('gilles-error');
+    err.style.display = 'none';
+    try {
+      const users = JSON.parse(localStorage.getItem('bdf2026_users') || '{}');
+      if (users[GILLES_KEY] && users[GILLES_KEY].pwd === pwd) {
+        sessionStorage.setItem('bdf2026_gilles_ok', '1');
+        unlockGilles();
+      } else {
+        err.style.display = 'inline';
+      }
+    } catch(e){ err.style.display = 'inline'; }
+  }
+
+  function unlockGilles() {
+    gillesUnlocked = true;
+    document.getElementById('gilles-login-bar').style.display = 'none';
+    document.getElementById('btn-edit-info').style.display = 'inline-block';
+  }
+
+  function startEditInfo() {
+    const data = loadInfo();
+    document.getElementById('info-textarea').value = data ? (data.text || '') : '';
+    document.getElementById('info-display').style.display = 'none';
+    document.getElementById('info-edit-zone').style.display = 'block';
+    document.getElementById('info-textarea').focus();
+  }
+
+  function cancelEditInfo() {
+    document.getElementById('info-edit-zone').style.display = 'none';
+    document.getElementById('info-display').style.display = 'block';
+  }
+
+  function saveInfo() {
+    const text = document.getElementById('info-textarea').value.trim();
+    localStorage.setItem(INFO_KEY, JSON.stringify({ text, author: 'Gilles D.', updated: new Date().toISOString() }));
+    cancelEditInfo();
+    renderInfo();
+  }
+
+  initInfoZone();
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) initInfoZone(); });
+  window.addEventListener('focus', () => { renderInfo(); if (!gillesUnlocked) initInfoZone(); });
+
+  /* ===== INSCRITS depuis localStorage ===== */
+  const BAL_DEF = [
+    { id:'b1', label:'Le Bal Pin-Up & Playboy', date:'12 juillet', color:'#E63946' },
+    { id:'b2', label:'Le Bal Super Héros',      date:'19 juillet', color:'#8338EC' },
+    { id:'b3', label:'Le Bal Jungle',            date:'23 août',   color:'#22C55E' },
+    { id:'b4', label:'Le Bal Impérial',          date:'30 août',   color:'#FF9F1C' },
+  ];
+
+  const OPT_LABEL = {
+    queue: 'entrée gratuite',
+    fast:  'Fast Pass — 40 €/pers',
+    av:    'table Avant-Croisette — 250 €/pers',
+    ce:    'table Centre-Croisette — 150 €/pers',
+    ar:    'table Arrière-Croisette — 100 €/pers',
+  };
+
+  function renderInscrits() {
+    let users = {}, inscriptions = {};
+    try { users = JSON.parse(localStorage.getItem('bdf2026_users') || '{}'); } catch(e){}
+    try { inscriptions = JSON.parse(localStorage.getItem('bdf2026_inscriptions') || '{}'); } catch(e){}
+
+    const grid = document.getElementById('inscrits-grid');
+    grid.innerHTML = '';
+
+    BAL_DEF.forEach(bal => {
+      // Collect participants for this bal
+      const participants = [];
+      Object.keys(inscriptions).sort().forEach(key => {
+        const data = inscriptions[key];
+        if (data[bal.id]) {
+          const u = users[key];
+          if (u) participants.push({ name: u.prenom + ' ' + u.initial, opt: data[bal.id] });
+        }
+      });
+
+      const card = document.createElement('div');
+      card.className = 'inscrits-bal-card';
+
+      const listHtml = participants.length
+        ? participants.map(p => `
+            <div class="inscrit-row">
+              <span class="inscrit-name">${p.name}</span>
+              <span class="inscrit-mode">(${OPT_LABEL[p.opt] || p.opt})</span>
+            </div>`).join('')
+        : '<div class="inscrits-empty">Pas encore d\'inscrit·e</div>';
+
+      card.innerHTML = `
+        <div class="inscrits-bal-head">
+          <div class="inscrits-bal-dot" style="background:${bal.color}"></div>
+          <div class="inscrits-bal-name">${bal.label}</div>
+          <div class="inscrits-bal-date">${bal.date}</div>
+          ${participants.length ? `<span class="inscrits-count">${participants.length}</span>` : ''}
+        </div>
+        <div class="inscrits-list">${listHtml}</div>`;
+
+      grid.appendChild(card);
+    });
+  }
+
+  renderInscrits();
+  // Rafraîchit si l'onglet redevient actif (retour depuis page d'inscription)
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) renderInscrits(); });
+  window.addEventListener('focus', renderInscrits);
+</script>
+</body>
+</html>
