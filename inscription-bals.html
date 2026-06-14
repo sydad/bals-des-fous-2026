@@ -131,11 +131,11 @@ tbody td{padding:.65rem .85rem;vertical-align:top;line-height:1.4}
   </div>
   <div class="card">
     <h2>Créer mon profil</h2>
-    <label>Prénom</label>
+    <label>Prénom ou pseudo</label>
     <input type="text" id="reg-prenom" placeholder="Ex : Sophie" maxlength="30">
-    <label>Initiale du nom ou pseudo</label>
-    <input type="text" id="reg-initial" placeholder="Ex : M. ou Loulou" maxlength="20">
-    <div class="form-hint">Prénom + initiale ou pseudo — visible par le groupe.</div>
+    <label>Initiale du nom</label>
+    <input type="text" id="reg-initial" placeholder="Ex : M." maxlength="20">
+    <div class="form-hint">Prénom ou pseudo + initiale — visible par le groupe.</div>
     <label>Mot de passe (pour modifier plus tard)</label>
     <input type="password" id="reg-password" placeholder="Choisis un mot de passe">
     <label>Question secrète</label>
@@ -155,7 +155,7 @@ tbody td{padding:.65rem .85rem;vertical-align:top;line-height:1.4}
   <div class="divider-or">ou</div>
   <div class="card">
     <h2>Déjà inscrit·e ? Se connecter</h2>
-    <label>Prénom</label>
+    <label>Prénom ou pseudo</label>
     <input type="text" id="login-prenom" placeholder="Ex : Sophie" maxlength="30">
     <label>Mot de passe</label>
     <input type="password" id="login-password" placeholder="Ton mot de passe">
@@ -173,7 +173,7 @@ tbody td{padding:.65rem .85rem;vertical-align:top;line-height:1.4}
   </div>
   <div class="card">
     <h2>Réinitialiser le mot de passe</h2>
-    <label>Ton prénom</label>
+    <label>Ton prénom ou pseudo</label>
     <input type="text" id="reset-prenom" placeholder="Ex : Sophie" maxlength="30">
     <div id="reset-question-wrap" style="display:none">
       <label>Question secrète</label>
@@ -207,10 +207,10 @@ tbody td{padding:.65rem .85rem;vertical-align:top;line-height:1.4}
       <button class="btn-small btn-small-primary" onclick="toggleProfilEdit(true)">✏️ Modifier</button>
     </div>
     <div class="profil-edit-fields" id="profil-edit-fields">
-      <label>Prénom</label>
-      <input type="text" id="profil-prenom" maxlength="30" placeholder="Ton prénom">
-      <label>Initiale du nom ou pseudo</label>
-      <input type="text" id="profil-initial" maxlength="20" placeholder="Ex : M. ou Loulou">
+      <label>Prénom ou pseudo</label>
+      <input type="text" id="profil-prenom" maxlength="30" placeholder="Ton prénom ou pseudo">
+      <label>Initiale du nom</label>
+      <input type="text" id="profil-initial" maxlength="20" placeholder="Ex : M.">
       <div class="form-hint">Ces informations sont visibles par le groupe.</div>
       <div class="form-error" id="profil-error"></div>
       <div style="display:flex;gap:.5rem;margin-top:.85rem;justify-content:flex-end">
